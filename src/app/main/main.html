@@ -1,0 +1,114 @@
+
+<div class="container" >
+
+  <nav class="navbar navbar-default" id="main_navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">
+          <div id="applebees_menu"></div>
+          <h2 id="location-finder-title">
+            Location Finder
+          </h2>
+        </a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="#">Menu</a></li>
+          <li><a href="#">Gift Certificate</a></li>
+          <li><a href="#">Locations</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <!-- General Error and Notification -->
+  <div class="alert alert-danger" role="alert" ng-show="main.errors">{{main.errors}}</div>
+  <div class="alert alert-info" role="alert" ng-show="main.notifications">{{main.notifications}}</div>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-4 col-md-4">
+      <div class="panel panel-default">
+
+        <div class="panel-body" id="search_box">
+          <div class="input-group">
+            <input type="search" class="form-control" ng-keypress="main.performSearch($event)" name="search" ng-model="main.search" placeholder="Enter ZIP Code or City" value="">
+            <div class="input-group-addon">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-success" role="alert" ng-show="main.current_location" id="location_name">
+          <span ng-hide="main.locations.length">No </span> Results For {{main.current_location}}
+        </div>
+        <ul class="list-group" ng-show="main.locations.length" id="locations_list">
+          <li class="list-group-item location-row" ng-repeat="location in main.locations">
+            <div class="row location-row" ng-click="main.showWindow(location.number-1)" ng-mouseleave="main.hideWindow(location.number-1)">
+              <div class="col-md-2 col-xs-2">
+                <div class="location_icon">
+                  <div class="location_number">
+                    {{location.number}}
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10 col-xs-10">
+                <h5>{{location.name}}, {{location.address}}</h5>
+                <p ng-if="location.address_extended">
+                  {{location.address_extended}}
+                </p>
+                <p>
+                  {{location.postcode}}, {{location.locality}} - {{location.region}}
+                  <div ng-if="location.description">
+                    <br /> {{location.description}}
+                  </div>
+                  <div ng-if="location.manager_name">Manager <b>{{location.manager_name}}</b></div>
+                </p>
+                <p>
+                  <span>{{location.phone}}</span>
+                  <span ng-if="localion.website">
+                    <a href="http://{{localion.website}}">{{localion.website}}</a>
+                  </span>
+                  <span ng-if="location.order_url">
+                    <button class="pull-right btn btn-default btn-xs order-button" href="{{location.order_url}}" target="_blank">
+                      <span class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></span>
+                      Order Now!
+                    </button>
+                  </span>
+                </p>
+                <div>
+                  <div ng-if="location.hours">
+                    <location-hours hours="location.hours">Show Hours<location-hours>
+                  </div>
+                  <div ng-if="location.special_hours">Special Hours: {{location.special_hours}}</div>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-8 col-md-8">
+      <ui-gmap-google-map center="main.map.center" events="main.map.events" zoom="main.map.zoom" options="main.options" bounds="main.map.bounds">
+        <ui-gmap-markers models="main.locations" control="main.markers_control" options="'options'" icon="'icon'" coords="'self'" icon="'icon'">
+          <ui-gmap-windows show="show" options="main.windows_options" control="main.windows_control">
+                <div ng-non-bindable>
+                  {{address}}<br />
+                  {{postcode}}, {{locality}} - {{region}}
+                </div>
+            </ui-gmap-windows>
+        </ui-gmap-markers>
+      </ui-gmap-google-map>
+    </div>
+
+  </div>
+
+</div>

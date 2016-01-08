@@ -1,0 +1,8 @@
+- Bring me there!: a button that zoom the map to the location selected
+- Single Local Page: clicking a location open the relative page in the LLP application
+- Same my location: Like the one that they have now, allows you to save you favorite location
+- Admin interface for multiple account and customizable design
+- Better interaction with the map (user experience)
+- Redesign of map elements based on client colors
+- Share on SM
+- Send to email/mobile
